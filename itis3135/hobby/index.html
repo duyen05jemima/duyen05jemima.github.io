@@ -1,0 +1,763 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Through the Lens | Photography</title>
+  <link rel="icon" href="images/favicon.ico">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      /* Center the full site and limit its width for comfortable reading. */
+      max-width: 70rem;
+      margin: 0 auto;
+      background-color: #feffd3;
+      background-image: radial-gradient(#f0d9df 1.5px, transparent 1.5px);
+      background-size: 22px 22px;
+      color: #45133b;
+      font-family: Georgia, "Palatino Linotype", serif;
+      font-size: 1.15rem;
+      line-height: 1.85;
+    }
+
+    h1, h2 {
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      font-style: italic;
+      line-height: 1.25;
+    }
+
+    header {
+      background: linear-gradient(180deg, #f9dce3 0%, #f5eeff 100%);
+      text-align: center;
+      padding: 1.75rem 1rem 1.25rem;
+      border-bottom: 6px double #d35a7c;
+    }
+
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 2.6rem;
+      font-weight: normal;
+      color: #5b2f4c;
+      letter-spacing: 0.03em;
+    }
+
+    /* Class: styles the short site tagline consistently in the header. */
+    .tagline {
+      margin: 0 0 1rem;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-style: italic;
+      color: #865c75;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0 0 1rem;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    nav li + li::before {
+      content: "\273F";
+      color: #d35a7c;
+      margin-right: 0.4rem;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      border: 2px solid #ffb3ca;
+      background: #fffaf1;
+      color: #aa0047;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      background: #f4cfd6;
+      border-color: #d35a7c;
+    }
+
+    nav a.active {
+      background: #d9c7ee;
+      border-color: #cba5ff;
+      color: #34224a;
+      font-weight: bold;
+    }
+
+    /* ID: uniquely targets the sound control for styling and JavaScript. */
+    #soundToggle {
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      padding: 0.3rem 1rem;
+      border-radius: 999px;
+      border: 2px solid #aed0a9;
+      background: #c9dcc6;
+      color: #2f4a2b;
+      cursor: pointer;
+    }
+
+    #soundToggle:hover,
+    #soundToggle:focus {
+      background: #dcebd9;
+    }
+
+    main {
+      max-width: 46rem;
+      margin: 2rem auto;
+      padding: 2rem 1.5rem;
+      background: #fffaf1;
+      border: 2px solid #e8cdd4;
+      outline: 6px solid #f6e4e8;
+      border-radius: 18px;
+    }
+
+    /* Section IDs let JavaScript display the selected topic. */
+    section[hidden] {
+      display: none;
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+      font-size: 2.1rem;
+      font-weight: normal;
+      color: #5c0134;
+    }
+
+    h2::after {
+      content: "\273F  \2766  \273F";
+      display: block;
+      font-size: 1.1rem;
+      letter-spacing: 0.4em;
+      color: #d35a7c;
+      margin-top: 0.2rem;
+    }
+
+    a {
+      color: #8a3158;
+      text-underline-offset: 3px;
+    }
+
+    a:visited {
+      color: #8a3158;
+    }
+
+    a:hover {
+      color: #fe82d5;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.5rem;
+    }
+
+    li::marker {
+      color: #d35a7c;
+    }
+
+    figure {
+      margin: 2rem auto;
+      padding: 0.9rem;
+      max-width: 24rem;
+      /* White gives each photograph a clean, print-like mat. */
+      background: #ffffff;
+      border: 2px solid #e8cdd4;
+      border-radius: 6px;
+      box-shadow: 0 6px 18px rgba(120, 70, 100, 0.18);
+      text-align: center;
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 3px;
+    }
+
+    figcaption {
+      margin-top: 0.7rem;
+      font-style: italic;
+      font-weight: bold;
+      color: #7a3a5e;
+    }
+
+    figure p {
+      margin: 0.6rem 0 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      /* White keeps the table readable against the pastel page palette. */
+      background: #ffffff;
+    }
+
+    caption {
+      text-align: center;
+      font-style: italic;
+      font-weight: bold;
+      padding: 0.5rem 0;
+      color: #7a3a5e;
+    }
+
+    th,
+    td {
+      border: 1px solid #d8a8b6;
+      padding: 0.55rem 0.7rem;
+      text-align: left;
+    }
+
+    th {
+      background: #d9c7ee;
+      color: #34224a;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fdf0f3;
+    }
+
+    footer {
+      background: linear-gradient(180deg, #d6e8d3 0%, #cfe3ee 100%);
+      border-top: 6px double #8fb08a;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      color: #2f3f33;
+    }
+
+    footer ul {
+      list-style: none;
+      margin: 0 0 1rem;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    footer a {
+      color: #5b1f44;
+    }
+
+    footer a:visited {
+      color: #5b1f44;
+    }
+
+    footer ul a {
+      display: inline-block;
+      padding: 0.3rem 0.9rem;
+      background: #fffaf1;
+      border: 2px solid #8fb08a;
+      border-radius: 999px;
+      text-decoration: none;
+    }
+
+    footer ul a:hover {
+      background: #ffe6e6;
+    }
+
+    footer p {
+      margin: 0.3rem 0;
+    }
+
+    /* Class: identifies temporary sparkle elements created by JavaScript. */
+    .spark {
+      position: fixed;
+      pointer-events: none;
+      color: #c9788f;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spark {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.9rem;
+      }
+
+      nav li + li::before {
+        content: none;
+      }
+
+      main {
+        margin: 1rem 0.75rem;
+        padding: 1.25rem 1rem;
+      }
+    }
+  </style>
+
+  <!-- Accumulus validation script belongs at the end of the head. -->
+  <script src="https://lint.page/kit/4d0fe3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Through the Lens</h1>
+  <p class="tagline">A Photography Journal</p>
+
+  <nav aria-label="Hobby sections">
+    <ul>
+      <li><a href="#what" data-target="what">What</a></li>
+      <li><a href="#who" data-target="who">Who</a></li>
+      <li><a href="#when" data-target="when">When</a></li>
+      <li><a href="#where" data-target="where">Where</a></li>
+      <li><a href="#how" data-target="how">How</a></li>
+      <li><a href="#why" data-target="why">Why</a></li>
+      <li><a href="#prompts" data-target="prompts">AI Prompts</a></li>
+    </ul>
+  </nav>
+
+  <button type="button" id="soundToggle" aria-pressed="true">
+    Sound: On
+  </button>
+</header>
+
+<main>
+  <!-- Section IDs are needed for navigation and section switching. -->
+
+  <section id="what">
+    <h2>What Is Photography?</h2>
+
+    <p>
+      Photography is the art of capturing light to freeze a moment in time.
+      A single frame can show a place, a mood, or a small detail most people
+      walk right past.
+    </p>
+
+    <figure>
+      <img src="images/what.jpg" width="800" height="1067"
+           alt="A DSLR camera held in front of ocean waves at sunset">
+      <p><em>No AI prompt was used. This is my own photo.</em></p>
+      <figcaption>My camera at the beach at sunset</figcaption>
+    </figure>
+
+    <ul>
+      <li>Shoot landscapes, buildings, and street scenes.</li>
+      <li>Chase good light at sunrise and sunset.</li>
+      <li>Look for interesting angles and patterns.</li>
+    </ul>
+  </section>
+
+  <section id="who">
+    <h2>Who I Am</h2>
+
+    <p>
+      I am a student who loves taking photos around campus and wherever I
+      travel. I love capturing photos with my phone and recently upgraded
+      to a DSLR camera, which I use sometimes.
+    </p>
+
+    <p>
+      I like all types of photos, but especially bright sunset or sunrise
+      photos for their color.
+    </p>
+
+    <figure>
+      <img src="images/who.jpg" width="800" height="1067"
+           alt="Black and white street intersection with traffic lights and railroad crossing signals">
+      <p><em>No AI prompt was used. This is my own photo.</em></p>
+      <figcaption>A black and white street scene I shot</figcaption>
+    </figure>
+
+    <ul>
+      <li>I enjoy taking photos around campus.</li>
+      <li>I like experimenting with phone and DSLR cameras.</li>
+      <li>I especially enjoy colorful sunrises and sunsets.</li>
+    </ul>
+  </section>
+
+  <section id="when">
+    <h2>Best Times to Shoot</h2>
+
+    <p>
+      Light changes everything in photography. The best photos often happen
+      when sunlight is soft and colorful, but any time can be a good time
+      to take pictures.
+    </p>
+
+    <table>
+      <caption>Light by time of day</caption>
+      <thead>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Light</th>
+          <th scope="col">Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sunrise</td>
+          <td>Soft and warm</td>
+          <td>Landscapes</td>
+        </tr>
+        <tr>
+          <td>Midday</td>
+          <td>Harsh and bright</td>
+          <td>Architecture</td>
+        </tr>
+        <tr>
+          <td>Golden hour</td>
+          <td>Golden and low</td>
+          <td>Portraits and buildings</td>
+        </tr>
+        <tr>
+          <td>Blue hour</td>
+          <td>Cool and deep</td>
+          <td>City scenes and lamps</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <figure>
+      <img src="images/when.jpg" width="800" height="1067"
+           alt="Pink and orange sunset sky over a brick path lined with glowing lamps">
+      <p><em>No AI prompt was used. This is my own photo.</em></p>
+      <figcaption>Sunset gives the best colors</figcaption>
+    </figure>
+  </section>
+
+  <section id="where">
+    <h2>Best Places to Shoot</h2>
+
+    <p>
+      You do not need to travel far to take good pictures. Interesting photo
+      spots are often nearby if you look carefully and notice what catches
+      your eye.
+    </p>
+
+    <ul>
+      <li><strong>Campus walkways:</strong> Brick paths, lamps, and tall buildings.</li>
+      <li><strong>The beach:</strong> Reflections and glowing sunsets.</li>
+      <li><strong>City streets:</strong> Strong lines, signs, and moody skies.</li>
+    </ul>
+
+    <figure>
+      <img src="images/where.jpg" width="800" height="1067"
+           alt="Campus brick walkway with trees, lamps, and tall brick buildings under a blue evening sky">
+      <p><em>No AI prompt was used. This is my own photo.</em></p>
+      <figcaption>A campus walkway in the evening</figcaption>
+    </figure>
+  </section>
+
+  <section id="how">
+    <h2>How to Get Started</h2>
+
+    <ol>
+      <li>Pick a camera or a phone. Either is perfectly fine to begin with.</li>
+      <li>Learn aperture, shutter speed, and ISO.</li>
+      <li>Practice composition, such as leading lines and the rule of thirds.</li>
+      <li>Edit lightly if needed and share the best shots.</li>
+    </ol>
+
+    <figure>
+      <img src="images/how.jpg" width="800" height="1067"
+           alt="Looking straight up at the corner of a brick building with a blue sky in the middle">
+      <p><em>No AI prompt was used. This is my own photo.</em></p>
+      <figcaption>A low angle makes lines lead the eye</figcaption>
+    </figure>
+
+    <p>
+      My favorite tip: change your angle. Getting low or looking up can turn
+      a plain wall into a strong picture.
+    </p>
+
+    <ul>
+      <li>Try different angles before taking a photo.</li>
+      <li>Pay attention to lighting and shadows.</li>
+      <li>Keep practicing with your phone or camera.</li>
+    </ul>
+  </section>
+
+  <section id="why">
+    <h2>Why I Love It</h2>
+
+    <p>
+      Photography makes me slow down and notice details I would normally
+      miss. It gives me a chance to express myself and capture moments that
+      make me happy. Even a walk back to my dorm from classes, a camera in
+      hand, helps me see the beauty in ordinary things and brightens my day.
+    </p>
+
+    <p>
+      It also lets me save memories and share how a place felt to me,
+      not just how it looked.
+    </p>
+
+    <figure>
+      <img src="images/why.jpg" width="800" height="1067"
+           alt="Orange sunset seen through a blue railing and a brick column, with campus buildings in the distance">
+      <p><em>No AI prompt was used. This is my own photo.</em></p>
+      <figcaption>Framing a sunset through a railing</figcaption>
+    </figure>
+
+    <ul>
+      <li>Photography helps me notice small details.</li>
+      <li>It lets me save meaningful memories.</li>
+      <li>It gives me a creative way to express myself.</li>
+    </ul>
+  </section>
+
+  <section id="prompts">
+    <h2>AI Prompts</h2>
+
+    <p>
+      I used AI to help build this website. These are the main prompts I used.
+    </p>
+
+    <ol>
+      <li>
+        "Guide me and help me build a one-page photography hobby website
+        with an embedded stylesheet and sections that switch when I click
+        the navigation."
+      </li>
+      <li>
+        "Make the design pastel and vintage, easy to read, with a sparkle
+        sound when I press a menu item."
+      </li>
+    </ol>
+
+    <figure>
+      <img src="images/prompts.jpg" width="800" height="1067"
+           alt="Brick path lined with glowing lamps at dusk">
+      <p><em>No AI prompt was used for this image. It is my own photo.</em></p>
+      <figcaption>A quiet path at dusk</figcaption>
+    </figure>
+  </section>
+</main>
+
+<footer>
+  <ul>
+    <li>
+      <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fwebpages.charlotte.edu%2Fdbachu%2Fitis3135%2Fhobby%2F">
+        HTML Validation
+      </a>
+    </li>
+    <li>
+      <a href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fwebpages.charlotte.edu%2Fdbachu%2Fitis3135%2Fhobby%2F&amp;profile=css3svg&amp;usermedium=all&amp;warning=1&amp;lang=en">
+        CSS Validation
+      </a>
+    </li>
+    <li>
+      <a href="https://wave.webaim.org/report#/https://webpages.charlotte.edu/dbachu/itis3135/hobby/">
+        Accessibility Check
+      </a>
+    </li>
+  </ul>
+
+  <p>
+    Designed by
+    <a href="https://webpages.charlotte.edu/dbachu/itis3135/">
+      Duyen Jemima Bachu
+    </a>
+  </p>
+
+  <p>
+    <a href="https://webpages.charlotte.edu/dbachu/itis3135/">
+      Visit My Design Firm
+    </a>
+  </p>
+</footer>
+
+<script>
+  /* These variables control section navigation, sound, and sparkle effects. */
+  var sections = document.querySelectorAll("main section");
+  var links = document.querySelectorAll("nav a");
+  var toggle = document.getElementById("soundToggle");
+  var soundOn = true;
+  var audioCtx = null;
+
+  function sparkleSound() {
+    if (!soundOn) {
+      return;
+    }
+
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+
+      if (!Ctx) {
+        return;
+      }
+
+      if (!audioCtx) {
+        audioCtx = new Ctx();
+      }
+
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+
+      var notes = [1046.5, 1318.5, 1568, 2093, 2637, 3136];
+      var now = audioCtx.currentTime;
+
+      for (var i = 0; i < 6; i++) {
+        var freq = notes[Math.floor(Math.random() * notes.length)];
+        var start = now + i * 0.055;
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.value = freq;
+
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.1, start + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.45);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(start);
+        osc.stop(start + 0.5);
+      }
+    } catch (err) {
+      /* Sound is optional, so ignore audio errors. */
+    }
+  }
+
+  function sparkleBurst(el) {
+    var reduce = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduce) {
+      return;
+    }
+
+    var rect = el.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var shapes = ["\u2726", "\u2727", "\u273F", "\u2736"];
+
+    for (var i = 0; i < 7; i++) {
+      var s = document.createElement("span");
+      s.className = "spark";
+      s.setAttribute("aria-hidden", "true");
+      s.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+      s.style.left = (cx + (Math.random() * 60 - 30)) + "px";
+      s.style.top = (cy + (Math.random() * 20 - 10)) + "px";
+
+      document.body.appendChild(s);
+
+      if (s.animate) {
+        var dx = Math.random() * 80 - 40;
+
+        s.animate(
+          [
+            {
+              opacity: 1,
+              transform: "translate(0px, 0px) scale(0.8)"
+            },
+            {
+              opacity: 0,
+              transform: "translate(" + dx + "px, -70px) scale(1.5)"
+            }
+          ],
+          {
+            duration: 900,
+            easing: "ease-out",
+            fill: "forwards"
+          }
+        );
+      }
+
+      setTimeout(function (node) {
+        return function () {
+          node.remove();
+        };
+      }(s), 1000);
+    }
+  }
+
+  /* Show one section, update the active link, and update the browser title. */
+  function show(id) {
+    var found = false;
+
+    sections.forEach(function (s) {
+      if (s.id === id) {
+        found = true;
+      }
+    });
+
+    if (!found) {
+      id = "what";
+    }
+
+    sections.forEach(function (s) {
+      s.hidden = (s.id !== id);
+    });
+
+    var visibleSection = document.getElementById(id);
+
+    if (visibleSection) {
+      var heading = visibleSection.querySelector("h2");
+
+      if (heading) {
+        document.title = "Through the Lens | " + heading.textContent;
+      }
+    }
+
+    links.forEach(function (a) {
+      if (a.getAttribute("data-target") === id) {
+        a.classList.add("active");
+        a.setAttribute("aria-current", "page");
+      } else {
+        a.classList.remove("active");
+        a.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  links.forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      var id = a.getAttribute("data-target");
+
+      sparkleSound();
+      sparkleBurst(a);
+      show(id);
+
+      history.replaceState(null, "", "#" + id);
+      window.scrollTo(0, 0);
+    });
+  });
+
+  toggle.addEventListener("click", function () {
+    soundOn = !soundOn;
+
+    toggle.setAttribute("aria-pressed", soundOn ? "true" : "false");
+    toggle.textContent = soundOn ? "Sound: On" : "Sound: Off";
+
+    if (soundOn) {
+      sparkleSound();
+    }
+  });
+
+  /* Open the requested section when the page first loads. */
+  show(location.hash.replace("#", "") || "what");
+</script>
+
+<!-- Vicunadator standards checker. -->
+<script src="https://divonbriesen.github.io/teaching/tools/standards-check.js" defer></script>
+
+</body>
+</html>
